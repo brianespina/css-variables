@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Scoped CSS Variables and JS</title>
+</head>
+<style>
+  :root{
+    --one: 10px;
+    --two: 10px;
+  }
+  .one{
+    font-size: var(--one);
+  }
+  .two{
+    font-size: var(--two);
+  }
+</style>
+<body>
+  <div class="controls">
+    <label>
+      <input type="range" value="10" name="one">
+      <input type="range" value="10" name="two">
+    </label><br>
+    one <div class="one">Test1</div><br>
+    two <div class="two">Test2</div>
+  </div>
+  <script>
+    const input = document.querySelectorAll('input')
+    function logValue(){
+      const div = document.querySelector(`.${this.name}`)
+      document.documentElement.style.setProperty(`--${this.name}`, `${this.value}px`)
+    }
+    input.forEach(i => {
+      const div = document.querySelector(`.${i.name}`)
+      document.documentElement.style.setProperty(`--${i.name}`, `${i.value}px`)
+      i.addEventListener('change', logValue)
+      i.addEventListener('mousemove', logValue)
+    })
+  </script>
+</body>
+</html>
